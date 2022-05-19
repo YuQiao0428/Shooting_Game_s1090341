@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
+import android.media.MediaPlayer
 import android.view.GestureDetector
 import android.view.MotionEvent
 
@@ -18,9 +19,9 @@ class Shooting(context: Context?, attrs: AttributeSet?) : SurfaceView(context, a
     var surfaceHolder: SurfaceHolder
     var BG: Bitmap
     var BGmoveX:Int = 0
-
     var fly: Fly
     var gDetector: GestureDetector
+    var mper: MediaPlayer
 
     init {
         surfaceHolder = getHolder()
@@ -28,6 +29,7 @@ class Shooting(context: Context?, attrs: AttributeSet?) : SurfaceView(context, a
         surfaceHolder.addCallback(this)
         fly = Fly(context!!)
         gDetector = GestureDetector(context, this)
+        mper = MediaPlayer()
     }
 
     override fun surfaceCreated(p0: SurfaceHolder) {
@@ -51,7 +53,7 @@ class Shooting(context: Context?, attrs: AttributeSet?) : SurfaceView(context, a
         var DestRect: Rect = Rect(0, 0, w, h)
         //canvas.drawBitmap(BG, SrcRect, DestRect, null)
 
-        BGmoveX --
+        BGmoveX -= 2
         var BGnewX:Int = w + BGmoveX
 
         // 如果已捲動整張圖，則重新開始
@@ -78,8 +80,12 @@ class Shooting(context: Context?, attrs: AttributeSet?) : SurfaceView(context, a
         return true
     }
 
-    override fun onShowPress(p0: MotionEvent?) {
-
+    override fun onShowPress(e: MotionEvent?) {
+        if (e!!.x >= 0 && e!!.x <= fly.w && e!!.y >= fly.y && e!!.y <= fly.y + fly.w) {
+            fly.fire = 1
+            mper = MediaPlayer.create(context, R.raw.shoot)
+            mper.start()
+        }
     }
 
     override fun onSingleTapUp(p0: MotionEvent?): Boolean {
