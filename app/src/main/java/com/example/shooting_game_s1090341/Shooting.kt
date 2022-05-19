@@ -5,19 +5,29 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Rect
+import android.view.GestureDetector
+import android.view.MotionEvent
 
 class Shooting(context: Context?, attrs: AttributeSet?) : SurfaceView(context, attrs),
-    SurfaceHolder.Callback{
+    SurfaceHolder.Callback,GestureDetector.OnGestureListener{
 
     var surfaceHolder: SurfaceHolder
     var BG: Bitmap
     var BGmoveX:Int = 0
 
+    var fly: Fly
+    var gDetector: GestureDetector
 
     init {
         surfaceHolder = getHolder()
         BG = BitmapFactory.decodeResource(getResources(), R.drawable.background)
         surfaceHolder.addCallback(this)
+        fly = Fly(context!!)
+        gDetector = GestureDetector(context, this)
     }
 
     override fun surfaceCreated(p0: SurfaceHolder) {
@@ -39,7 +49,7 @@ class Shooting(context: Context?, attrs: AttributeSet?) : SurfaceView(context, a
         var w: Int = width
         var h: Int = height
         var DestRect: Rect = Rect(0, 0, w, h)
-        canvas.drawBitmap(BG, SrcRect, DestRect, null)
+        //canvas.drawBitmap(BG, SrcRect, DestRect, null)
 
         BGmoveX --
         var BGnewX:Int = w + BGmoveX
@@ -51,18 +61,49 @@ class Shooting(context: Context?, attrs: AttributeSet?) : SurfaceView(context, a
             canvas.drawBitmap(BG, BGmoveX.toFloat(), 0f, null)
         } else {
             // need to draw original and wrap
-            var DestRect:Rect = Rect(BGmoveX, 0, BGmoveX+w, h)
+            DestRect = Rect(BGmoveX, 0, BGmoveX+w, h)
             canvas.drawBitmap(BG, SrcRect, DestRect, null)
             DestRect = Rect(BGnewX, 0, BGnewX+w, h)
             canvas.drawBitmap(BG, SrcRect, DestRect, null)
         }
-
+        fly.draw(canvas)
 
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.color = Color.BLUE
         paint.textSize = 50f
         canvas.drawText("射擊遊戲(作者:黃郁喬)", 50f, 50f, paint)
     }
+
+    override fun onDown(p0: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onShowPress(p0: MotionEvent?) {
+
+    }
+
+    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+        return true
+    }
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, p2: Float, p3: Float): Boolean {
+        fly.y = e2!!.y.toInt() - fly.h/2
+        return true
+    }
+
+    override fun onLongPress(p0: MotionEvent?) {
+
+    }
+
+    override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+        return true
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gDetector.onTouchEvent(event)
+        return true
+    }
+
+
 
 
 

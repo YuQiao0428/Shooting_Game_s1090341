@@ -1,4 +1,5 @@
 package com.example.shooting_game_s1090341
+
 import android.graphics.Canvas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
