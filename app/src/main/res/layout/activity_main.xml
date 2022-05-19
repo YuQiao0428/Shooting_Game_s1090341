@@ -7,26 +7,35 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-
     <com.example.shooting_game_s1090341.Shooting
         android:id="@+id/game"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/start" />
+        app:layout_constraintEnd_toStartOf="@+id/Myphoto"
+        app:srcCompat="@drawable/start"
+        app:layout_constraintHorizontal_chainStyle="packed"/>
 
-
+    <ImageView
+        android:id="@+id/Myphoto"
+        android:layout_width="59dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/img"
+        app:srcCompat="@drawable/photo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

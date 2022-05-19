@@ -1,24 +1,38 @@
 package com.example.shooting_game_s1090341
-
 import android.graphics.Canvas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.SurfaceView
 import android.widget.ImageView
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 import kotlinx.coroutines.*
 
+@GlideModule
+public final class MyAppGlideModule : AppGlideModule()
+
+
 class MainActivity : AppCompatActivity() {
-    lateinit var img:ImageView
-    lateinit var game:Shooting
+
+    lateinit var img : ImageView
+    lateinit var game : Shooting
     var flag:Boolean = false
-    lateinit var job: Job
+    lateinit var job : Job
+    lateinit var imgAuthor : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        img=findViewById(R.id.img)
-        game=findViewById(R.id.game)
+        img = findViewById(R.id.img)
+        game = findViewById(R.id.game)
+
+        imgAuthor = findViewById(R.id.Myphoto)
+        GlideApp.with(this)
+            //.load(R.drawable.earth)
+            .load(R.drawable.photo)
+            .circleCrop()
+            .override(800, 600)
+            .into(imgAuthor)
 
         img.setOnClickListener({
             if (flag){
@@ -37,9 +51,8 @@ class MainActivity : AppCompatActivity() {
                         game.surfaceHolder.unlockCanvasAndPost(canvas)
                     }
                 }
-
             }
-        })
 
+        })
     }
 }
