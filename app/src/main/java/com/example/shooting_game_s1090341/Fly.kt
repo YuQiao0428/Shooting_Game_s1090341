@@ -8,7 +8,7 @@ import android.graphics.Rect
 
 class Fly(context: Context) {
 
-    val res = context.resources  //讀取資源
+    val res = context.resources
     var x: Int = 0
     var y: Int = res.displayMetrics.heightPixels / 2
     var w: Int
